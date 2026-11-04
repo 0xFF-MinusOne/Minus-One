@@ -15,5 +15,6 @@ export const products: Product[] = [
     category: "セキュリティ評価",
     description: "ペネトレーションテストのプロジェクト、検出事項、レポートをまとめて管理します。",
     icon: "/brand/pentest-dashboard-icon.png",
+    url: "https://minus-one-pentest.vercel.app",
   },
 ];
