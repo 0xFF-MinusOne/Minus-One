@@ -1,4 +1,22 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
 
-export default defineConfig({ plugins: [react()] });
+export default defineConfig({
+  plugins: [react()],
+  server: { host: '127.0.0.1', port: 8092, strictPort: true },
+  build: {
+    chunkSizeWarningLimit: 800,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          charts: ['recharts'],
+          vendor: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query', '@supabase/supabase-js'],
+        },
+      },
+    },
+  },
+  test: {
+    environment: 'node',
+    include: ['src/**/*.test.{ts,tsx}', 'mcp/src/**/*.test.ts'],
+  },
+});
