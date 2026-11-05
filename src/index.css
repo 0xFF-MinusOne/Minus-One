@@ -2,11 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    font-family: 'Hiragino Sans', 'ヒラギノ角ゴシック', sans-serif;
+    color: #172033;
+    background: #fbfcfe;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: #fbfcfe;
+  }
+
+  code,
+  kbd,
+  pre,
+  .font-mono {
+    font-family: 'SF Mono', Menlo, monospace;
+  }
+
+  /* 狭い列でも日本語を 1 文字ずつ折り返さない。 */
+  th {
+    white-space: nowrap;
+  }
+
+  td {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  dialog::backdrop {
+    background: rgba(23, 32, 51, 0.45);
+  }
+
+  :focus-visible {
+    outline: 2px solid #1467e0;
+    outline-offset: 2px;
+  }
 }
 
-body {
-  background: #000;
-  line-break: strict;
+@layer components {
+  .logo-on-white {
+    filter: invert(1);
+    mix-blend-mode: multiply;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.8125rem;
+  }
+
+  .data-table th {
+    background: #f4f6fa;
+    padding: 0.625rem 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: #4a5568;
+  }
+
+  .data-table th:first-child {
+    border-radius: 0.5rem 0 0 0.5rem;
+  }
+
+  .data-table th:last-child {
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  .data-table td {
+    border-bottom: 1px solid #eef1f6;
+    padding: 0.7rem 0.75rem;
+    vertical-align: middle;
+  }
+
+  .data-table tbody tr:hover td {
+    background: #fafbfd;
+  }
+
+  /* 長い題名やパスは列を広げすぎず、指定の幅で折り返す。 */
+  .cell-text {
+    max-width: 26rem;
+    min-width: 8rem;
+    white-space: normal;
+  }
+
+  .field-control {
+    width: 100%;
+    border: 1px solid #d9dfe9;
+    border-radius: 0.5rem;
+    background: #fff;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.875rem;
+    color: #172033;
+  }
+
+  .field-control:disabled {
+    background: #f4f6fa;
+    color: #6b7686;
+  }
 }

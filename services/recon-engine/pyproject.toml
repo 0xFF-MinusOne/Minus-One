@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "minus-one-recon-engine"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["fastapi==0.162.0", "uvicorn==0.54.0", "pydantic==2.14.2", "pydantic-settings>=2.7,<3", "sqlalchemy[asyncio]==2.1.8", "asyncpg==0.32.0", "arq==0.28.0", "httpx==0.28.1", "openai-agents==0.24.0", "anthropic==2.4.0", "cryptography>=44", "PyJWT[crypto]>=2.10,<3", "defusedxml>=0.7,<1"]
+[project.optional-dependencies]
+ml = ["jax>=0.4,<1", "optax>=0.2,<1", "flax>=0.10,<1"]
+test = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2", "respx>=0.22,<1"]
+[project.scripts]
+recon-chatgpt-signin = "recon_engine.providers.signin:main"
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+testpaths = ["tests"]

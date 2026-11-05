@@ -1,0 +1,100 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "/work/example-shop",
+  "ArtifactType": "filesystem",
+  "Results": [
+    {
+      "Target": "package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2099-0001",
+          "PkgName": "acme-http",
+          "InstalledVersion": "1.2.3",
+          "FixedVersion": "1.2.4",
+          "PrimaryURL": "https://example.test/advisory/CVE-2099-0001",
+          "Title": "acme-http: 架空のリクエスト偽装",
+          "Description": "架空の脆弱性の説明です。",
+          "Severity": "CRITICAL",
+          "SeveritySource": "ghsa",
+          "CweIDs": ["CWE-444"],
+          "CVSS": {
+            "ghsa": { "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H", "V3Score": 9.8 },
+            "nvd": { "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L", "V3Score": 7.3 }
+          },
+          "References": ["https://example.test/advisory/CVE-2099-0001", "https://example.test/fix/1"]
+        },
+        {
+          "VulnerabilityID": "CVE-2099-0001",
+          "PkgName": "acme-http",
+          "InstalledVersion": "1.2.3",
+          "Severity": "CRITICAL"
+        },
+        {
+          "VulnerabilityID": "CVE-2099-0001",
+          "PkgName": "acme-parser",
+          "InstalledVersion": "0.9.0",
+          "Severity": "HIGH"
+        },
+        {
+          "VulnerabilityID": "GHSA-aaaa-bbbb-cccc",
+          "PkgName": "acme-ui",
+          "InstalledVersion": "4.0.0",
+          "Severity": "UNKNOWN"
+        },
+        { "PkgName": "id-missing", "Severity": "HIGH" }
+      ]
+    },
+    {
+      "Target": "deploy/main.tf",
+      "Class": "config",
+      "Type": "terraform",
+      "Misconfigurations": [
+        {
+          "ID": "AVD-EXAMPLE-0001",
+          "Title": "架空のバケットが公開されている",
+          "Description": "架空の設定不備です。",
+          "Message": "バケットの公開設定が有効です。",
+          "Resolution": "公開設定を無効にする。",
+          "Severity": "HIGH",
+          "Status": "FAIL",
+          "CauseMetadata": {
+            "StartLine": 10,
+            "EndLine": 12,
+            "Code": {
+              "Lines": [
+                { "Number": 10, "Content": "resource \"example_bucket\" \"a\" {" },
+                { "Number": 11, "Content": "  public = true" }
+              ]
+            }
+          }
+        },
+        {
+          "ID": "AVD-EXAMPLE-0001",
+          "Title": "架空のバケットが公開されている",
+          "Severity": "HIGH",
+          "Status": "FAIL",
+          "CauseMetadata": { "StartLine": 40 }
+        },
+        {
+          "ID": "AVD-EXAMPLE-0002",
+          "Title": "Code の無い設定不備",
+          "Severity": "MEDIUM",
+          "Status": "FAIL",
+          "CauseMetadata": { "Resource": "example_bucket.b" }
+        },
+        { "ID": "AVD-EXAMPLE-0003", "Title": "原因情報そのものが無い", "Severity": "LOW", "Status": "FAIL" },
+        { "ID": "AVD-EXAMPLE-0004", "Title": "成功したチェック", "Severity": "HIGH", "Status": "PASS" },
+        { "ID": "AVD-EXAMPLE-0005", "Title": "例外扱いのチェック", "Severity": "HIGH", "Status": "EXCEPTION" },
+        { "Title": "ID が無いチェック", "Status": "FAIL" }
+      ]
+    },
+    {
+      "Target": "config/.env.sample",
+      "Class": "secret",
+      "Secrets": [{ "RuleID": "example-key", "Match": "EXAMPLE_KEY=********" }]
+    },
+    { "Target": "go.mod", "Class": "lang-pkgs", "Vulnerabilities": null, "Misconfigurations": null }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "/work/example-shop",
+  "Results": [
+    {
+      "Target": "package-lock.json",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2099-0001",
+          "PkgName": "acme-http",
+          "InstalledVersion": "1.2.3",
+          "FixedVersion": "1.2.5",
+          "Title": "acme-http: 架空のリクエスト偽装（内容を更新）",
+          "Description": "架空の脆弱性の説明を更新しました。",
+          "Severity": "HIGH",
+          "CVSS": { "nvd": { "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L", "V3Score": 7.3 } }
+        },
+        {
+          "VulnerabilityID": "CVE-2099-0002",
+          "PkgName": "acme-new",
+          "InstalledVersion": "2.0.0",
+          "Severity": "LOW"
+        }
+      ]
+    }
+  ]
+}
