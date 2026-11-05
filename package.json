@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 8092 --strictPort",
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -16,12 +16,17 @@
     "backup": "node scripts/backup.mjs",
     "restore": "node scripts/restore-backup.mjs",
     "mcp:build": "esbuild mcp/src/main.ts --bundle --platform=node --format=esm --packages=external --log-level=warning --outfile=mcp/dist/server.mjs",
-    "mcp:bot": "node scripts/setup-mcp-bot.mjs"
+    "mcp:bot": "node scripts/setup-mcp-bot.mjs",
+    "api:build": "bun build ./apps/api/server.ts --target=bun --outdir=apps/api/dist",
+    "api:dev": "bun --hot apps/api/server.ts",
+    "dev:all": "bun scripts/dev.ts",
+    "test:python": "python3.12 -m unittest discover -s services/recon-engine/tests -v"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.32.2",
     "@supabase/supabase-js": "2.118.0",
     "@tanstack/react-query": "5.105.3",
+    "hono": "4.13.16",
     "lucide-react": "1.67.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -30,6 +35,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.11",
     "@types/node": "22.20.5",
     "@types/react": "18.3.31",
     "@types/react-dom": "18.3.7",
@@ -41,5 +47,9 @@
     "typescript": "5.9.3",
     "vite": "6.4.5",
     "vitest": "5.1.0"
+  },
+  "packageManager": "bun@1.3.14",
+  "engines": {
+    "bun": ">=1.3.14"
   }
 }

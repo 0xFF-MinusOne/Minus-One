@@ -1,0 +1,6 @@
+import type {ReconData,Asset} from './model';
+export function rootDomain(data:ReconData):string|null{return data.scopes.find(s=>s.kind==='domain'&&!s.excluded)?.value.replace(/^\*\./,'')||null}
+export function subdomains(data:ReconData):Asset[]{const roots=data.scopes.filter(s=>s.kind==='domain'&&!s.excluded).map(s=>s.value.replace(/^\*\./,''));return data.assets.filter(a=>a.type==='Host'&&roots.some(r=>a.host.endsWith('.'+r)))}
+export function metrics(data:ReconData){return {assets:data.assets.length,live:data.assets.filter(a=>a.status==='Live').length,ports:data.services.filter(s=>s.state==='open').length,subdomains:subdomains(data).length,technologies:new Set(data.technologies.map(t=>t.name)).size,critical:data.assets.filter(a=>a.risk==='Critical').length}}
+export function technologyCounts(data:ReconData){const counts=new Map<string,Set<string>>();for(const t of data.technologies){const set=counts.get(t.name)||new Set<string>();set.add(t.asset_id);counts.set(t.name,set)}return [...counts].map(([name,ids])=>({name,count:ids.size})).sort((a,b)=>b.count-a.count)}
+export function changedPercent(current:number,previous:number|undefined):string{if(previous===undefined)return '比較データなし';if(previous===0)return current===0?'±0%':'新規';const n=(current-previous)/previous*100;return `${n>0?'+':''}${n.toFixed(1)}%`}

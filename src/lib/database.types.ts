@@ -1,3 +1,4 @@
+import type {ReconTables} from '../recon/model';
 export type Json =
   | string
   | number
@@ -33,7 +34,7 @@ export type Database = {
     }
   }
   public: {
-    Tables: {
+    Tables: ReconTables & {
       findings: {
         Row: {
           affected_location: string | null
@@ -227,6 +228,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      import_recon_assets: { Args: {p_project_id:string;p_rows:Json;p_filename:string}; Returns:string }
+      promote_recon_note: { Args: {p_note_id:string;p_title:string;p_severity:Database["public"]["Enums"]["finding_severity"]}; Returns:string }
+
       import_trivy_findings: {
         Args: { p_items: Json; p_project_id: string }
         Returns: {

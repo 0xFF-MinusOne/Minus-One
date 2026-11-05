@@ -13,8 +13,8 @@ export const queryKeys = {
   membership: (userId: string) => ['membership', userId] as const,
 };
 
-export function useProjects() {
-  return useQuery({ queryKey: queryKeys.projects, queryFn: listProjects });
+export function useProjects(enabled = true) {
+  return useQuery({ queryKey: queryKeys.projects, queryFn: listProjects, enabled });
 }
 
 export function useFindings() {

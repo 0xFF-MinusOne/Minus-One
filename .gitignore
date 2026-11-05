@@ -12,3 +12,9 @@ supabase/.temp/
 mcp/dist/
 tests/integration/.build/
 .vercel/
+.local/
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/.credentials/
+apps/api/dist/
