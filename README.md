@@ -310,10 +310,15 @@ tests/          統合確認（ローカルの Supabase が必要）
 vercel.json     公開時のヘッダーと rewrite
 ```
 
-## 統合版（ホーム・Pentest・Recon）
+## 統合版（ホーム・Ghostwriter・Pentest）
 
-ホームを `/`、既存Pentestを `/pentest`、Recon UIを `/recon` へ統合。
-ログイン・MFA・メンバーと案件は既存Supabaseを共通利用します。
-Reconの観測データはまだサンプルです。
+ホームを `/`、既存Pentestを `/pentest` に置いています。新しい案件・報告書の入口は Ghostwriter（`/redteam`）です。
+Ghostwriter は別の Docker の環境（`minus-one-ghostwriter`）で動き、ログインも別です。開発時は `bun run dev` か `bun run dev:all` で起動した Vite が `/redteam` を `127.0.0.1:8093` へ転送します。`.env.local` には `VITE_GHOSTWRITER_URL=/redteam` を書きます。
+本番の公開方式は未定で、Vercel には `/redteam` の転送がありません。
+
+`VITE_GHOSTWRITER_SSO=true` にすると、入口が `/open/redteam` に変わり、Hub のログインと MFA を済ませた人は Ghostwriter のログイン画面を通らずに開けます。既定は無効です。トークンは URL に載せず、フォーム POST で送ります。確認には `VITE_SUPABASE_URL` と `VITE_SUPABASE_ANON_KEY` も `.env.local` に要ります（今の `.env.local` にはなく、既定の接続先 `http://127.0.0.1:54621` に anon キーなしで繋ごうとするのでログインできません）。Ghostwriter 側の設定、確認手順、制限は `minus-one-ghostwriter/integration/README.ja.md` の「Hub のログインで開く」にあります。公開時の CSP の変更は同じフォルダの `PRODUCTION.ja.md` の 5.2 節にあります。
+
+Pentest のログイン・MFA・メンバーと案件は既存Supabaseを共通利用します。
+Recon のコードは残しています（`/recon`、`src/recon/`）。ホームのアプリ一覧には出しません。
 
 [統合・デプロイ手順](docs/UNIFIED-DEPLOYMENT.md) / [Recon MVP設計](docs/RECON-MVP.md)

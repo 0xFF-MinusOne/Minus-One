@@ -12,6 +12,7 @@ import { FindingsPage } from './pages/FindingsPage';
 import { LoginPage } from './pages/LoginPage';
 import { MembersPage } from './pages/MembersPage';
 import { MfaPage } from './pages/MfaPage';
+import { OpenGhostwriterPage } from './pages/OpenGhostwriterPage';
 import { ProjectDetailPage } from './pages/ProjectDetailPage';
 import { ProjectsPage } from './pages/ProjectsPage';
 
@@ -25,14 +26,28 @@ function NotFound() {
   );
 }
 
+/** プロキシを通らず SPA が /redteam を受け取ったときの案内。 */
+function RedteamPending() {
+  return (
+    <EmptyState title="Ghostwriter は準備中です。">
+      <a href="/" className="font-semibold text-brand-700 hover:underline">
+        ホームへ戻る
+      </a>
+    </EmptyState>
+  );
+}
+
 export function App() {
   return (
     <Routes>
+      {import.meta.env.DEV && <Route path="/recon-preview/*" element={<Suspense fallback={<p>読み込み中…</p>}><ReconApp preview/></Suspense>}/>}
       <Route path="/" element={<HomePage/>} />
+      <Route path="/redteam/*" element={<RedteamPending />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mfa" element={<MfaPage />} />
       <Route element={<RequireAuth />}>
         <Route element={<RequireMember />}>
+          <Route path="open/redteam" element={<OpenGhostwriterPage />} />
           <Route path="recon/*" element={<Suspense fallback={<p>Reconを読み込んでいます…</p>}><ReconApp/></Suspense>} />
           <Route element={<Layout />}>
             <Route path="pentest" element={<DashboardPage />} />

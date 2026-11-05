@@ -74,23 +74,22 @@ const App = () => (
       <section id="apps" className="scroll-mt-6 border-t border-white/30 py-16">
         <p className="text-xs tracking-[0.3em] text-white/70">APPLICATIONS</p>
         <h2 className="mt-4 text-4xl sm:text-5xl">アプリ一覧</h2>
-        <p className="mt-4 text-white/70">MINUS ONE のアプリ群です。</p>
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <p className="mt-4 text-white/70">既存の実績を確認する、新しい案件を進める。目的に合わせてアプリを選択してください。</p>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
           {products.map(product => {
             const body = (
               <>
-                <div className="flex items-start justify-between">
-                  <span className="flex h-16 w-16 items-center justify-center bg-white p-2"><img src={product.icon} alt="" className="h-full w-full object-contain" /></span>
-                  {product.url && <ArrowUpRight className="h-6 w-6 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.25} />}
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-2xl">{product.name}</h3>
+                  {product.url && <ArrowUpRight className="mt-1 h-6 w-6 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" strokeWidth={1.25} />}
                 </div>
-                <h3 className="mt-7 text-2xl">{product.name}</h3>
                 <p className="mt-1 text-xs tracking-[0.2em] text-white/60">{product.category}</p>
                 <p className="mt-5 flex-1 leading-relaxed text-white/80">{product.description}</p>
-                <span className="mt-7 border-t border-white/20 pt-4 text-sm tracking-[0.2em]">{product.url ? "開く" : "準備中"}</span>
+                <span className="mt-7 border-t border-white/20 pt-4 text-sm tracking-[0.2em]">{!product.url ? "準備中" : product.external ? "新しいタブで開く" : "開く"}</span>
               </>
             );
             return product.url
-              ? <a key={product.id} href={product.url} className="group flex flex-col border border-white/40 p-7 transition-colors hover:border-white hover:bg-white/5">{body}</a>
+              ? <a key={product.id} href={product.url} {...(product.external ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="group flex flex-col border border-white/40 p-7 transition-colors hover:border-white hover:bg-white/5">{body}</a>
               : <article key={product.id} className="flex flex-col border border-white/40 p-7">{body}</article>;
           })}
         </div>

@@ -1,24 +1,55 @@
-import { ChevronDown, FolderClosed, KeyRound, LayoutDashboard, LogOut, Network, Menu, Plus, ShieldCheck, Users, X } from 'lucide-react';
+import { ChevronDown, ExternalLink, FileText, FolderClosed, KeyRound, LayoutDashboard, LogOut, Menu, Plus, ShieldCheck, Users, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { signOutCurrent, useUserEmail } from '../auth/AuthProvider';
+import { ghostwriterEntryUrl, ghostwriterOpensInNewTab } from '../products';
 import { GlobalSearch } from './GlobalSearch';
 import { ProjectFormDialog } from './ProjectForm';
 import { Button } from './ui';
 
 const NAV_ITEMS = [
-  {to: '/recon', label: 'Recon・攻撃対象面', icon: Network, end:false},
   { to: '/pentest', label: 'ダッシュボード', icon: LayoutDashboard, end: true },
   { to: '/projects', label: 'プロジェクト', icon: FolderClosed, end: false },
   { to: '/findings', label: '検出事項', icon: ShieldCheck, end: false },
   { to: '/members', label: 'メンバー', icon: Users, end: false },
 ] as const;
 
-function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+/** 別アプリなので NavLink にせず、接続先が未設定ならリンクにしない。 */
+function GhostwriterNavItem({ onNavigate }: { onNavigate?: () => void }) {
+  const base = 'flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-semibold';
+  if (!ghostwriterEntryUrl) {
+    return (
+      <span className={`${base} text-ink-muted`}>
+        <FileText className="h-5 w-5" aria-hidden />
+        Ghostwriter
+        <span className="ml-auto text-xs font-normal">準備中</span>
+      </span>
+    );
+  }
+  return (
+    <a
+      href={ghostwriterEntryUrl}
+      {...(ghostwriterOpensInNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      onClick={onNavigate}
+      className={`${base} text-ink-soft transition-colors hover:bg-canvas hover:text-ink`}
+    >
+      <FileText className="h-5 w-5" aria-hidden />
+      Ghostwriter
+      {ghostwriterOpensInNewTab && (
+        <>
+          <ExternalLink className="ml-auto h-4 w-4" aria-hidden />
+          <span className="sr-only">（新しいタブで開く）</span>
+        </>
+      )}
+    </a>
+  );
+}
+
+export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full flex-col bg-white px-4 py-5">
       <div className="mb-8 flex items-center gap-3 px-2">
-        <img src="/brand/0xff-mark.png" alt="0xFF" width={40} height={40} className="logo-on-white h-10 w-10" />
+        <img src="/brand/pentest-dashboard-icon.png" alt="Pentest Dashboard" width={40} height={40} className="logo-on-white h-10 w-10" />
         <div className="text-[15px] font-extrabold uppercase leading-tight tracking-wide text-ink">
           Pentest
           <br />
@@ -26,6 +57,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         </div>
       </div>
       <nav aria-label="メインメニュー" className="space-y-1.5">
+        <GhostwriterNavItem onNavigate={onNavigate} />
         {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}

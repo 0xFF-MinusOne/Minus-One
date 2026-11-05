@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
-  server: { host: '127.0.0.1', port: 8092, strictPort: true },
+  server: { host: '127.0.0.1', port: 5173, strictPort: true, proxy: {'/api/recon': {target: process.env.API_GATEWAY_URL || 'http://127.0.0.1:8788', changeOrigin: false}, '^/redteam(?:[/?]|$)': {target: process.env.GHOSTWRITER_PROXY_TARGET || 'http://127.0.0.1:8093', ws: true, changeOrigin: false}} },
   build: {
     chunkSizeWarningLimit: 800,
     rollupOptions: {

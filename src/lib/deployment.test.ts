@@ -26,7 +26,7 @@ describe('公開に備えた設定', () => {
   });
 
   it('SPA の rewrite と robots.txt がある', () => {
-    expect(vercel.rewrites).toContainEqual({ source: '/(.*)', destination: '/index.html' });
+    expect(vercel.rewrites).toContainEqual({ source: '/((?!api/).*)', destination: '/index.html' });
     expect(readFileSync(new URL('public/robots.txt', root), 'utf8')).toContain('Disallow: /');
   });
 
